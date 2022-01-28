@@ -5,6 +5,7 @@ import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 class Quiz extends Component{
 
     state={
+        activeQuestion:0,
         quiz:[
             {   question:"Math Calculate: 3+3=",
                 rightAnswerId:4,
@@ -40,11 +41,14 @@ console.log("Answer:",answerId)
 <div className='QuizWrapper'>
 <h1>Answer all Question</h1>
 <ActiveQuiz
-    answers={this.state.quiz[0].answers} question={this.state.quiz[0].question}
+    answers={this.state.quiz[0].answers} 
+    question={this.state.quiz[0].question}
     onAnswerClick={this.onAnswerClickHandler}
+    quizLength={this.state.quiz.length}
+    answerNumber={this.state.activeQuestion+1}
 />
 </div>
-
+    
 </div>
         )
          
