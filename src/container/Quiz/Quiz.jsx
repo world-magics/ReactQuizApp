@@ -7,11 +7,11 @@ class Quiz extends Component{
 
     state={
         results:{}, // {[id]:success error}
-        isFinished:true,
+        isFinished:false,
         activeQuestion:0,
         answerState:null, //{[id]:'success','error'}
         quiz:[
-            {   question:"Math Calculate: 3+3=",
+            {   question:"Math Calculate: 3+3",
                 rightAnswerId:4,
                 id:1,
                 answers:[
@@ -21,7 +21,7 @@ class Quiz extends Component{
                     {text:'Result: 6',id:4},
                 ]
             },
-            {   question:"Math Calculate: 6*2=",
+            {   question:"Math Calculate: 6*2",
                 rightAnswerId:2,
                 id:2,
                 answers:[
@@ -32,7 +32,7 @@ class Quiz extends Component{
                     
                 ]
             },
-            {   question:"Math Calculate: 2+2=",
+            {   question:"Math Calculate: 2+2",
                 rightAnswerId:1,
                 id:3,
                 answers:[
@@ -43,7 +43,7 @@ class Quiz extends Component{
                     
                 ]
             },
-            {   question:"Math Calculate: 3:9=",
+            {   question:"Math Calculate: 3:9",
                 rightAnswerId:3,
                 id:4,
                 answers:[
@@ -60,20 +60,20 @@ class Quiz extends Component{
 onAnswerClickHandler=(answerId)=>{
 // console.log("Answer:",answerId)
 
-if(this.this.state.answerState){
-    const key=Object.keys(this.state.answerState)[0]
-    if(this.state.answerState[key]==='success'){
-        return 
-    }
-}
+// if(this.this.state.answerState){
+//     const key=Object.keys(this.state.answerState)[0]
+//     if(this.state.answerState[key]==='success'){
+//         return 
+//     }
+// }
 
 
 const question=this.state.quiz[this.state.activeQuestion] 
 const results=this.state.results
 
 if(question.rightAnswerId===answerId){
-    if(!results[answerId]){
-        results[answerId]='success'
+    if(!results[question.id]){
+        results[question.id]='success'
     } 
     this.setState({
         answerState:{[answerId]:'success'},
@@ -98,7 +98,7 @@ if(question.rightAnswerId===answerId){
     
 }
 else{
-    results[answerId]='error'
+    results[question.id]='error'
     this.setState({
         answerState:{[answerId]:'error'},
         results:results
@@ -108,6 +108,15 @@ else{
 }
 isQuizFinished(){
     return this.state.activeQuestion+1===this.state.quiz.length
+}
+
+retryHandler=()=>{
+    this.setState({
+        activeQuestion:0,
+        answerState:null,
+        isFinished:false,
+        results:{}
+    })
 }
     render(){
         return(
@@ -122,6 +131,7 @@ isQuizFinished(){
     ?<FinishedQuiz
      results={this.state.results}
      quiz={this.state.quiz}
+     onRetry={this.retryHandler}
     /> 
     :<ActiveQuiz
     answers={this.state.quiz[this.state.activeQuestion].answers} 
